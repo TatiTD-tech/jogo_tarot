@@ -380,9 +380,10 @@ h2 {
     advice: "Avance com confiança. A resposta é positiva e indica que você está em alinhamento com seu destino."
   }
 ];
+// Estado de controle
+let cardChosen = false;
 
-
-// Estrelas
+// Estrelas de fundo
 function createStars() {
   const starsContainer = document.getElementById('stars-container');
   for (let i = 0; i < 100; i++) {
@@ -398,7 +399,7 @@ function createStars() {
   }
 }
 
-// Referências
+// Referências DOM
 const shuffleBtn = document.getElementById('shuffle-btn');
 const resetBtn = document.getElementById('reset-btn');
 const cardsContainer = document.getElementById('cards-container');
@@ -414,7 +415,7 @@ const modalInterpretation = document.getElementById('modal-interpretation');
 const modalAdvice = document.getElementById('modal-advice');
 const closeBtn = document.querySelector('.close-btn');
 
-// Início
+// Inicialização
 document.addEventListener('DOMContentLoaded', () => {
   createStars();
   shuffleBtn.addEventListener('click', startGame);
@@ -426,6 +427,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function startGame() {
   introSection.classList.add('hidden');
   gameArea.classList.remove('hidden');
+  cardChosen = false;
 
   const question = questionInput.value.trim();
   questionDisplay.textContent = question ? `"${question}"` : "Concentre-se em sua pergunta...";
@@ -442,7 +444,12 @@ function createCards() {
     const cardEl = document.createElement('div');
     cardEl.classList.add('card');
     cardEl.textContent = '🔮';
-    cardEl.addEventListener('click', () => showResult(card));
+    cardEl.addEventListener('click', () => {
+      if (!cardChosen) {
+        cardChosen = true;
+        showResult(card);
+      }
+    });
     cardsContainer.appendChild(cardEl);
   });
 }
@@ -469,13 +476,13 @@ function showResult(card) {
   resultModal.classList.add('active');
 }
 
-// Reiniciar
+// Reiniciar jogo
 function resetGame() {
   introSection.classList.remove('hidden');
   gameArea.classList.add('hidden');
   questionInput.value = '';
+  cardChosen = false;
 }
-
   </script>
 </body>
 </html>
