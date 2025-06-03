@@ -436,7 +436,7 @@ function createStars() {
 
   function createCards() {
     cardsContainer.innerHTML = '';
-    const selectedCards = [...tarotCards].sort(() => 0.5 - Math.random()).slice(0, 6);
+    const selectedCards = [...tarotCards].sort(() => 0.5 - Math.random()).slice(0, 5);
 
     selectedCards.forEach(card => {
       const cardEl = document.createElement('div');
