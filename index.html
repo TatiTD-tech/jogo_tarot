@@ -6,107 +6,188 @@
   <title>Tarô Intuitivo</title>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Cinzel', serif;
-      background: radial-gradient(circle at center, #0f172a 0%, #0a0f1f 100%);
-      color: #cbd5e1;
-      position: relative;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+    /* Estilo global */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Cinzel', serif;
+  background: radial-gradient(circle at center, #0f172a 0%, #0a0f1f 100%);
+  color: #cbd5e1;
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
-    #stars-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 0;
-      pointer-events: none;
-    }
+/* Estrelas de fundo */
+#stars-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
+.star {
+  position: absolute;
+  background-color: white;
+  border-radius: 50%;
+  animation: twinkle 3s infinite;
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
 
-    .star {
-      position: absolute;
-      background-color: white;
-      border-radius: 50%;
-      animation: twinkle 3s infinite;
-    }
+/* Container principal */
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 768px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  text-align: center;
+}
 
-    @keyframes twinkle {
-      0%, 100% { opacity: 0; }
-      50% { opacity: 1; }
-    }
+/* Títulos */
+h1 {
+  font-size: 3rem;
+  color: #cbd5e1;
+  margin-bottom: 0.2em;
+}
+h2 {
+  font-size: 1.5rem;
+  color: #94a3b8;
+  margin-bottom: 1em;
+}
 
-    .container {
-      position: relative;
-      z-index: 1;
-      max-width: 768px;
-      margin: 0 auto;
-      padding: 40px 20px;
-      text-align: center;
-    }
+/* Caixa de pergunta */
+.question-box {
+  background-color: rgba(30, 58, 138, 0.3);
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid rgba(96, 165, 250, 0.3);
+  margin-top: 2rem;
+}
+.question-input {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  border-radius: 8px;
+  padding: 12px 16px;
+  width: 100%;
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+.question-input:focus {
+  outline: none;
+  border-color: #4299e1;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+}
 
-    h1 {
-      font-size: 3rem;
-      color: #cbd5e1;
-      margin-bottom: 0.2em;
-    }
+/* Botões */
+.btn {
+  background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+  color: white;
+  font-weight: bold;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Cinzel', serif;
+  letter-spacing: 1px;
+}
+.btn:hover {
+  background: linear-gradient(135deg, #3182ce 0%, #2b6cb0 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(66, 153, 225, 0.5);
+}
 
-    h2 {
-      font-size: 1.5rem;
-      color: #94a3b8;
-      margin-bottom: 0.5em;
-    }
+/* Cartas */
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 2rem;
+}
+.card {
+  width: 120px;
+  height: 180px;
+  background-color: #1e293b;
+  border: 2px solid #3b82f6;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-5px);
+}
 
-    .question-box {
-      background-color: rgba(30, 58, 138, 0.3);
-      padding: 24px;
-      border-radius: 12px;
-      border: 1px solid rgba(96, 165, 250, 0.3);
-      margin-top: 2rem;
-    }
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+.modal.active {
+  display: flex;
+}
+.modal-content {
+  background-color: #1e293b;
+  border: 2px solid #3b82f6;
+  padding: 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  color: white;
+  position: relative;
+  text-align: center;
+}
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+}
 
-    .question-box p {
-      margin-bottom: 1rem;
-    }
+/* Resultado */
+.result-badge {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 20px;
+  margin: 10px 0;
+  font-weight: bold;
+  color: white;
+}
+.result-badge.yes {
+  background-color: #48bb78;
+}
+.result-badge.no {
+  background-color: #e53e3e;
+}
+.result-badge.maybe {
+  background-color: #d69e2e;
+}
 
-    .question-input {
-      background-color: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: white;
-      border-radius: 8px;
-      padding: 12px 16px;
-      width: 100%;
-      font-size: 16px;
-      margin-bottom: 16px;
-    }
+/* Esconde elementos */
+.hidden {
+  display: none;
+}
 
-    .question-input:focus {
-      outline: none;
-      border-color: #4299e1;
-      box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
-    }
-
-    .btn {
-      background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
-      color: white;
-      font-weight: bold;
-      padding: 12px 24px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-family: 'Cinzel', serif;
-      letter-spacing: 1px;
-    }
-
-    .btn:hover {
-      background: linear-gradient(135deg, #3182ce 0%, #2b6cb0 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(66, 153, 225, 0.5);
-    }
   </style>
 </head>
 <body>
@@ -116,34 +197,285 @@
     <h1>Tarô Intuitivo</h1>
     <h2>Consulta Sim ou Não</h2>
 
-    <div class="question-box">
+    <div class="question-box" id="intro-section">
       <p>Concentre-se em sua pergunta e escolha uma carta com sua intuição. A carta revelará a resposta que você busca.</p>
-      <input type="text" class="question-input" placeholder="Digite sua pergunta aqui (opcional)" />
-      <button class="btn">Embaralhar Cartas</button>
+      <input type="text" id="question-input" class="question-input" placeholder="Digite sua pergunta aqui (opcional)" />
+      <button id="shuffle-btn" class="btn">Embaralhar Cartas</button>
+    </div>
+
+    <div id="game-area" class="hidden">
+      <h2 id="question-display" class="question-text">Concentre-se em sua pergunta...</h2>
+      <div class="cards-container" id="cards-container"></div>
+      <button id="reset-btn" class="btn">Nova Consulta</button>
+    </div>
+  </div>
+
+  <div id="result-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <h2 id="modal-card-name">Nome da Carta</h2>
+      <div class="modal-card-symbol" id="modal-card-symbol"></div>
+      <span id="modal-result-badge" class="result-badge">Resultado</span>
+      <h3>Interpretação</h3>
+      <p id="modal-interpretation"></p>
+      <h3>Conselho</h3>
+      <p id="modal-advice"></p>
     </div>
   </div>
 
   <script>
-    // Criar estrelas no fundo
-    function createStars() {
-      const starsContainer = document.getElementById('stars-container');
-      for (let i = 0; i < 100; i++) {
-        const star = document.createElement('div');
-        star.classList.add('star');
+    const tarotCards = [
+  {
+    name: "O Louco",
+    symbol: "🌈",
+    result: "maybe",
+    interpretation: "O Louco representa novos começos, fé e imprevisibilidade. Esta carta sugere que o resultado depende de sua disposição para dar um salto de fé e abraçar o desconhecido.",
+    advice: "Esteja aberto a possibilidades inesperadas. A resposta não é definitiva porque depende de sua disposição para arriscar e confiar no processo, mesmo sem garantias."
+  },
+  {
+    name: "O Mago",
+    symbol: "✨",
+    result: "yes",
+    interpretation: "O Mago representa poder pessoal, manifestação e habilidade. Esta carta indica que você tem todos os recursos necessários para realizar o que deseja.",
+    advice: "Confie em suas habilidades e use seus talentos para criar a realidade que você deseja. O momento é favorável para agir com confiança."
+  },
+  {
+    name: "A Sacerdotisa",
+    symbol: "🌒",
+    result: "maybe",
+    interpretation: "A Sacerdotisa representa sabedoria interior, mistério e revelações ocultas. Esta carta sugere que nem tudo está claro ainda.",
+    advice: "Escute sua intuição e espere por mais sinais. A resposta depende de informações que ainda não vieram à tona."
+  },
+  {
+    name: "A Imperatriz",
+    symbol: "🌾",
+    result: "yes",
+    interpretation: "A Imperatriz simboliza fertilidade, abundância e nutrição. Esta carta indica que há potencial de crescimento e prosperidade.",
+    advice: "Alimente seus projetos com cuidado e amor. O terreno é fértil para resultados positivos."
+  },
+  {
+    name: "O Imperador",
+    symbol: "👑",
+    result: "yes",
+    interpretation: "O Imperador representa autoridade, estrutura e controle. Esta carta indica que você tem o poder e a capacidade de estabelecer ordem e alcançar seus objetivos.",
+    advice: "Assuma o controle da situação com confiança. Estabeleça limites claros e use sua autoridade de forma construtiva."
+  },
+  {
+    name: "O Papa",
+    symbol: "📿",
+    result: "maybe",
+    interpretation: "O Papa representa sabedoria tradicional, valores espirituais e conformidade. Pode indicar que você precisa seguir uma abordagem mais convencional.",
+    advice: "Reflita sobre seus valores e considere conselhos sábios. A resposta pode depender de sua adesão a princípios ou estruturas estáveis."
+  },
+  {
+    name: "Os Amantes",
+    symbol: "❤️",
+    result: "yes",
+    interpretation: "Os Amantes simbolizam escolha, união e alinhamento de valores. Esta carta sugere harmonia e conexão, indicando que o caminho está alinhado com seus valores mais profundos.",
+    advice: "Siga seu coração, mas certifique-se de que sua escolha esteja em harmonia com seus valores essenciais."
+  },
+  {
+    name: "O Carro",
+    symbol: "🚀",
+    result: "yes",
+    interpretation: "O Carro representa vitória, direção e domínio. Esta carta indica que você tem o controle necessário para seguir em frente com sucesso.",
+    advice: "Mantenha o foco e a disciplina. Seu esforço direcionado levará você à conquista."
+  },
+  {
+    name: "A Justiça",
+    symbol: "⚖️",
+    result: "maybe",
+    interpretation: "A Justiça simboliza equilíbrio, verdade e consequências. A resposta depende de ações passadas ou da imparcialidade da situação.",
+    advice: "Seja honesto e justo em suas decisões. Aguarde que a verdade ou um julgamento se revele antes de agir."
+  },
+  {
+    name: "O Eremita",
+    symbol: "🏔️",
+    result: "maybe",
+    interpretation: "O Eremita simboliza introspecção, busca por verdade e isolamento. Pode indicar que a resposta está em um período de reflexão, não de ação.",
+    advice: "Afaste-se para buscar clareza interna. A resposta virá com a sabedoria que você encontrar dentro de si."
+  },
+  {
+    name: "A Roda da Fortuna",
+    symbol: "🎡",
+    result: "maybe",
+    interpretation: "A Roda da Fortuna simboliza mudanças cíclicas, destino e oportunidades. Esta carta sugere que as circunstâncias estão em fluxo e o resultado pode mudar com o tempo.",
+    advice: "Reconheça que há forças maiores em jogo. O momento atual é de transição, e a resposta pode mudar conforme a roda gira."
+  },
+  {
+    name: "A Força",
+    symbol: "🦁",
+    result: "yes",
+    interpretation: "A Força representa coragem, autocontrole e compaixão. Esta carta sugere que você tem a força interior para superar os desafios.",
+    advice: "Confie em sua resistência emocional. Você está mais preparado do que imagina para lidar com a situação."
+  },
+  {
+    name: "O Enforcado",
+    symbol: "🔄",
+    result: "maybe",
+    interpretation: "O Enforcado representa pausa, rendição e novas perspectivas. Esta carta sugere que talvez não seja o momento de agir, mas sim de observar e ganhar novos insights.",
+    advice: "Considere mudar sua perspectiva sobre a situação. A resposta que você busca pode depender de sua disposição para ver as coisas de um ângulo diferente ou de aceitar um período de espera."
+  },
+  {
+    name: "A Morte",
+    symbol: "🦋",
+    result: "no",
+    interpretation: "A Morte representa transformação, fim de ciclos e renovação. Esta carta sugere que o caminho atual precisa ser encerrado para dar lugar a algo novo.",
+    advice: "Aceite o fim de um ciclo. Embora a resposta seja 'não' para a situação atual, isso abre espaço para novas possibilidades."
+  },
+  {
+    name: "A Temperança",
+    symbol: "🌈",
+    result: "yes",
+    interpretation: "A Temperança representa equilíbrio, paciência e moderação. Esta carta sugere que tudo está se encaminhando harmoniosamente.",
+    advice: "Continue agindo com calma e equilíbrio. O progresso pode ser lento, mas o resultado será positivo."
+  },
+  {
+    name: "O Diabo",
+    symbol: "🔥",
+    result: "no",
+    interpretation: "O Diabo representa vícios, ilusões e aprisionamento. Esta carta sugere que há influências negativas ou desejos destrutivos em jogo.",
+    advice: "Reconsidere seus motivos e liberte-se de amarras que limitam sua liberdade. A resposta negativa é um alerta para não seguir esse caminho."
+  },
+  {
+    name: "A Torre",
+    symbol: "⚡",
+    result: "no",
+    interpretation: "A Torre simboliza ruptura súbita, caos e revelações dolorosas. Esta carta sugere que o caminho atual pode levar a consequências inesperadas e potencialmente negativas.",
+    advice: "Reconsidere seus planos e esteja aberto a mudanças de direção. Às vezes, um 'não' do universo é uma proteção."
+  },
+  {
+    name: "A Estrela",
+    symbol: "⭐",
+    result: "yes",
+    interpretation: "A Estrela traz esperança, inspiração e orientação divina. Esta carta indica que seus desejos estão alinhados com seu caminho espiritual.",
+    advice: "Mantenha a fé e a esperança. Continue seguindo sua intuição; o universo está a seu favor."
+  },
+  {
+    name: "A Lua",
+    symbol: "🌙",
+    result: "maybe",
+    interpretation: "A Lua simboliza intuição, ilusão e o subconsciente. Esta carta sugere que há aspectos ocultos ou emoções não processadas influenciando a situação.",
+    advice: "Confie em sua intuição profunda. Espere até ter mais clareza antes de tomar uma decisão definitiva."
+  },
+  {
+    name: "O Sol",
+    symbol: "☀️",
+    result: "yes",
+    interpretation: "O Sol representa sucesso, vitalidade e clareza. Esta carta traz uma resposta fortemente positiva.",
+    advice: "Avance com confiança e otimismo. O sucesso está ao seu alcance e traz alegria e realização."
+  },
+  {
+    name: "O Julgamento",
+    symbol: "📯",
+    result: "yes",
+    interpretation: "O Julgamento representa renascimento, revelação e propósito. Esta carta indica uma segunda chance ou um chamado importante.",
+    advice: "Aja com consciência e propósito. Você está sendo chamado a avançar com uma nova compreensão."
+  },
+  {
+    name: "O Mundo",
+    symbol: "🌍",
+    result: "yes",
+    interpretation: "O Mundo representa realização, integração e completude. Esta carta indica sucesso e a conclusão bem-sucedida de um ciclo.",
+    advice: "Avance com confiança. A resposta é positiva e indica que você está em alinhamento com seu destino."
+  }
+];
 
-        const size = Math.random() * 2 + 1;
-        star.style.width = `${size}px`;
-        star.style.height = `${size}px`;
 
-        star.style.top = `${Math.random() * 100}%`;
-        star.style.left = `${Math.random() * 100}%`;
-        star.style.animationDelay = `${Math.random() * 3}s`;
+// Estrelas
+function createStars() {
+  const starsContainer = document.getElementById('stars-container');
+  for (let i = 0; i < 100; i++) {
+    const star = document.createElement('div');
+    star.classList.add('star');
+    const size = Math.random() * 2 + 1;
+    star.style.width = `${size}px`;
+    star.style.height = `${size}px`;
+    star.style.top = `${Math.random() * 100}%`;
+    star.style.left = `${Math.random() * 100}%`;
+    star.style.animationDelay = `${Math.random() * 3}s`;
+    starsContainer.appendChild(star);
+  }
+}
 
-        starsContainer.appendChild(star);
-      }
-    }
+// Referências
+const shuffleBtn = document.getElementById('shuffle-btn');
+const resetBtn = document.getElementById('reset-btn');
+const cardsContainer = document.getElementById('cards-container');
+const gameArea = document.getElementById('game-area');
+const introSection = document.getElementById('intro-section');
+const questionInput = document.getElementById('question-input');
+const questionDisplay = document.getElementById('question-display');
+const resultModal = document.getElementById('result-modal');
+const modalCardName = document.getElementById('modal-card-name');
+const modalCardSymbol = document.getElementById('modal-card-symbol');
+const modalResultBadge = document.getElementById('modal-result-badge');
+const modalInterpretation = document.getElementById('modal-interpretation');
+const modalAdvice = document.getElementById('modal-advice');
+const closeBtn = document.querySelector('.close-btn');
 
-    document.addEventListener('DOMContentLoaded', createStars);
+// Início
+document.addEventListener('DOMContentLoaded', () => {
+  createStars();
+  shuffleBtn.addEventListener('click', startGame);
+  resetBtn.addEventListener('click', resetGame);
+  closeBtn.addEventListener('click', () => resultModal.classList.remove('active'));
+});
+
+// Iniciar jogo
+function startGame() {
+  introSection.classList.add('hidden');
+  gameArea.classList.remove('hidden');
+
+  const question = questionInput.value.trim();
+  questionDisplay.textContent = question ? `"${question}"` : "Concentre-se em sua pergunta...";
+
+  createCards();
+}
+
+// Criar cartas
+function createCards() {
+  cardsContainer.innerHTML = '';
+  const selectedCards = [...tarotCards].sort(() => 0.5 - Math.random()).slice(0, 6);
+
+  selectedCards.forEach(card => {
+    const cardEl = document.createElement('div');
+    cardEl.classList.add('card');
+    cardEl.textContent = '🔮';
+    cardEl.addEventListener('click', () => showResult(card));
+    cardsContainer.appendChild(cardEl);
+  });
+}
+
+// Mostrar resultado
+function showResult(card) {
+  modalCardName.textContent = card.name;
+  modalCardSymbol.innerHTML = `<span style="font-size: 3rem;">${card.symbol}</span>`;
+  modalInterpretation.textContent = card.interpretation;
+  modalAdvice.textContent = card.advice;
+
+  modalResultBadge.className = 'result-badge';
+  if (card.result === 'yes') {
+    modalResultBadge.classList.add('yes');
+    modalResultBadge.textContent = '✅ SIM';
+  } else if (card.result === 'no') {
+    modalResultBadge.classList.add('no');
+    modalResultBadge.textContent = '❌ NÃO';
+  } else {
+    modalResultBadge.classList.add('maybe');
+    modalResultBadge.textContent = '🌗 INCERTEZA';
+  }
+
+  resultModal.classList.add('active');
+}
+
+// Reiniciar
+function resetGame() {
+  introSection.classList.remove('hidden');
+  gameArea.classList.add('hidden');
+  questionInput.value = '';
+}
+
   </script>
 </body>
 </html>
