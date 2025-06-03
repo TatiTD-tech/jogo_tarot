@@ -227,10 +227,11 @@ h2 {
   </div>
 
   <script>
-
-    let cardChosen = false;
-
-    const tarotCards = [
+     document.addEventListener('DOMContentLoaded', () => {
+     
+       let cardChosen = false;
+     
+     const tarotCards = [
   {
     name: "O Louco",
     symbol: "🌈",
@@ -386,109 +387,99 @@ h2 {
     advice: "Avance com confiança. A resposta é positiva e indica que você está em alinhamento com seu destino."
   }
 ];
-// Estado de controle
-let cardChosen = false;
-
-// Estrelas de fundo
 function createStars() {
-  const starsContainer = document.getElementById('stars-container');
-  for (let i = 0; i < 100; i++) {
-    const star = document.createElement('div');
-    star.classList.add('star');
-    const size = Math.random() * 2 + 1;
-    star.style.width = `${size}px`;
-    star.style.height = `${size}px`;
-    star.style.top = `${Math.random() * 100}%`;
-    star.style.left = `${Math.random() * 100}%`;
-    star.style.animationDelay = `${Math.random() * 3}s`;
-    starsContainer.appendChild(star);
+    const starsContainer = document.getElementById('stars-container');
+    for (let i = 0; i < 100; i++) {
+      const star = document.createElement('div');
+      star.classList.add('star');
+      const size = Math.random() * 2 + 1;
+      star.style.width = `${size}px`;
+      star.style.height = `${size}px`;
+      star.style.top = `${Math.random() * 100}%`;
+      star.style.left = `${Math.random() * 100}%`;
+      star.style.animationDelay = `${Math.random() * 3}s`;
+      starsContainer.appendChild(star);
+    }
   }
-}
 
-// Referências DOM
-const shuffleBtn = document.getElementById('shuffle-btn');
-const resetBtn = document.getElementById('reset-btn');
-const cardsContainer = document.getElementById('cards-container');
-const gameArea = document.getElementById('game-area');
-const introSection = document.getElementById('intro-section');
-const questionInput = document.getElementById('question-input');
-const questionDisplay = document.getElementById('question-display');
-const resultModal = document.getElementById('result-modal');
-const modalCardName = document.getElementById('modal-card-name');
-const modalCardSymbol = document.getElementById('modal-card-symbol');
-const modalResultBadge = document.getElementById('modal-result-badge');
-const modalInterpretation = document.getElementById('modal-interpretation');
-const modalAdvice = document.getElementById('modal-advice');
-const closeBtn = document.querySelector('.close-btn');
+  const shuffleBtn = document.getElementById('shuffle-btn');
+  const resetBtn = document.getElementById('reset-btn');
+  const cardsContainer = document.getElementById('cards-container');
+  const gameArea = document.getElementById('game-area');
+  const introSection = document.getElementById('intro-section');
+  const questionInput = document.getElementById('question-input');
+  const questionDisplay = document.getElementById('question-display');
+  const resultModal = document.getElementById('result-modal');
+  const modalCardName = document.getElementById('modal-card-name');
+  const modalCardSymbol = document.getElementById('modal-card-symbol');
+  const modalResultBadge = document.getElementById('modal-result-badge');
+  const modalInterpretation = document.getElementById('modal-interpretation');
+  const modalAdvice = document.getElementById('modal-advice');
+  const closeBtn = document.querySelector('.close-btn');
 
-// Inicialização
-document.addEventListener('DOMContentLoaded', () => {
   createStars();
+
   shuffleBtn.addEventListener('click', startGame);
   resetBtn.addEventListener('click', resetGame);
   closeBtn.addEventListener('click', () => resultModal.classList.remove('active'));
-});
 
-// Iniciar jogo
-function startGame() {
-  introSection.classList.add('hidden');
-  gameArea.classList.remove('hidden');
-  cardChosen = false;
+  function startGame() {
+    introSection.classList.add('hidden');
+    gameArea.classList.remove('hidden');
+    cardChosen = false;
 
-  const question = questionInput.value.trim();
-  questionDisplay.textContent = question ? `"${question}"` : "Concentre-se em sua pergunta...";
+    const question = questionInput.value.trim();
+    questionDisplay.textContent = question ? `"${question}"` : "Concentre-se em sua pergunta...";
 
-  createCards();
-}
-
-// Criar cartas
-function createCards() {
-  cardsContainer.innerHTML = '';
-  const selectedCards = [...tarotCards].sort(() => 0.5 - Math.random()).slice(0, 6);
-
-  selectedCards.forEach(card => {
-    const cardEl = document.createElement('div');
-    cardEl.classList.add('card');
-    cardEl.textContent = '🔮';
-    cardEl.addEventListener('click', () => {
-      if (!cardChosen) {
-        cardChosen = true;
-        showResult(card);
-      }
-    });
-    cardsContainer.appendChild(cardEl);
-  });
-}
-
-// Mostrar resultado
-function showResult(card) {
-  modalCardName.textContent = card.name;
-  modalCardSymbol.innerHTML = `<span style="font-size: 3rem;">${card.symbol}</span>`;
-  modalInterpretation.textContent = card.interpretation;
-  modalAdvice.textContent = card.advice;
-
-  modalResultBadge.className = 'result-badge';
-  if (card.result === 'yes') {
-    modalResultBadge.classList.add('yes');
-    modalResultBadge.textContent = '✅ SIM';
-  } else if (card.result === 'no') {
-    modalResultBadge.classList.add('no');
-    modalResultBadge.textContent = '❌ NÃO';
-  } else {
-    modalResultBadge.classList.add('maybe');
-    modalResultBadge.textContent = '🌗 INCERTEZA';
+    createCards();
   }
 
-  resultModal.classList.add('active');
-}
+  function createCards() {
+    cardsContainer.innerHTML = '';
+    const selectedCards = [...tarotCards].sort(() => 0.5 - Math.random()).slice(0, 6);
 
-// Reiniciar jogo
-function resetGame() {
-  introSection.classList.remove('hidden');
-  gameArea.classList.add('hidden');
-  questionInput.value = '';
-  cardChosen = false;
-}
-  </script>
+    selectedCards.forEach(card => {
+      const cardEl = document.createElement('div');
+      cardEl.classList.add('card');
+      cardEl.textContent = '🔮';
+      cardEl.addEventListener('click', () => {
+        if (!cardChosen) {
+          cardChosen = true;
+          showResult(card);
+        }
+      });
+      cardsContainer.appendChild(cardEl);
+    });
+  }
+
+  function showResult(card) {
+    modalCardName.textContent = card.name;
+    modalCardSymbol.innerHTML = `<span style="font-size: 3rem;">${card.symbol}</span>`;
+    modalInterpretation.textContent = card.interpretation;
+    modalAdvice.textContent = card.advice;
+
+    modalResultBadge.className = 'result-badge';
+    if (card.result === 'yes') {
+      modalResultBadge.classList.add('yes');
+      modalResultBadge.textContent = '✅ SIM';
+    } else if (card.result === 'no') {
+      modalResultBadge.classList.add('no');
+      modalResultBadge.textContent = '❌ NÃO';
+    } else {
+      modalResultBadge.classList.add('maybe');
+      modalResultBadge.textContent = '🌗 INCERTEZA';
+    }
+
+    resultModal.classList.add('active');
+  }
+
+  function resetGame() {
+    introSection.classList.remove('hidden');
+    gameArea.classList.add('hidden');
+    questionInput.value = '';
+    cardChosen = false;
+  }
+});
+</script>
 </body>
 </html>
