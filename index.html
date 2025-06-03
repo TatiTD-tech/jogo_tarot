@@ -1,531 +1,149 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tarot Sim ou Não</title>
-    <style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tarô Intuitivo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Cinzel', serif;
+      background: radial-gradient(circle at center, #0f172a 0%, #0a0f1f 100%);
+      color: #cbd5e1;
+      position: relative;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
+    #stars-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
 
-h1, h2, h3 {
-        font-family: 'Cinzel', serif;
-    }
-    
-    .card {
-        perspective: 1000px;
-        width: 140px;
-        height: 240px;
-        cursor: pointer;
-        transition: transform 0.3s ease;
-    }
-    
-    .card:hover {
-        transform: translateY(-10px);
-    }
-    
-    .card-inner {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        transition: transform 0.8s;
-        transform-style: preserve-3d;
-    }
-    
-    .card.flipped .card-inner {
-        transform: rotateY(180deg);
-    }
-    
-    .card-front, .card-back {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        backface-visibility: hidden;
-        border-radius: 15px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    }
-    
-    .card-front {
-        background: linear-gradient(135deg, #2a4365 0%, #1a365d 100%);
-        border: 2px solid #4299e1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .card-back {
-        transform: rotateY(180deg);
-        background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
-        border: 2px solid #a0aec0;
-        padding: 10px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-    }
-    
-    .card-pattern {
-        width: 80%;
-        height: 80%;
-        opacity: 0.2;
-    }
-    
-    .result-badge {
-        padding: 5px 10px;
-        border-radius: 20px;
-        font-weight: bold;
-        margin-bottom: 8px;
-        font-size: 14px;
-    }
-    
-    .yes {
-        background-color: #48bb78;
-        color: white;
-    }
-    
-    .no {
-        background-color: #e53e3e;
-        color: white;
-    }
-    
-    .maybe {
-        background-color: #d69e2e;
-        color: white;
-    }
-    
-    .modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.8);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 50;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s ease;
-    }
-    
-    .modal.active {
-        opacity: 1;
-        pointer-events: auto;
-    }
-    
-    .modal-content {
-        background: linear-gradient(135deg, #2a4365 0%, #1a365d 100%);
-        border: 2px solid #4299e1;
-        border-radius: 15px;
-        padding: 30px;
-        max-width: 600px;
-        width: 90%;
-        max-height: 90vh;
-        overflow-y: auto;
-        position: relative;
-    }
-    
-    .close-btn {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        font-size: 24px;
-        cursor: pointer;
-    }
-    
-    .shuffle-animation {
-        animation: shuffle 1s ease-in-out;
-    }
-    
-    @keyframes shuffle {
-        0% { transform: translateX(0) rotate(0); }
-        25% { transform: translateX(-20px) rotate(-5deg); }
-        50% { transform: translateX(20px) rotate(5deg); }
-        75% { transform: translateX(-10px) rotate(-2deg); }
-        100% { transform: translateX(0) rotate(0); }
-    }
-    
-    .fade-in {
-        animation: fadeIn 1s ease-in;
-    }
-    
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
-    
     .star {
-        position: absolute;
-        background-color: white;
-        border-radius: 50%;
-        animation: twinkle 3s infinite;
+      position: absolute;
+      background-color: white;
+      border-radius: 50%;
+      animation: twinkle 3s infinite;
     }
-    
+
     @keyframes twinkle {
-        0% { opacity: 0; }
-        50% { opacity: 1; }
-        100% { opacity: 0; }
+      0%, 100% { opacity: 0; }
+      50% { opacity: 1; }
     }
-    
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 768px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 3rem;
+      color: #cbd5e1;
+      margin-bottom: 0.2em;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      color: #94a3b8;
+      margin-bottom: 0.5em;
+    }
+
+    .question-box {
+      background-color: rgba(30, 58, 138, 0.3);
+      padding: 24px;
+      border-radius: 12px;
+      border: 1px solid rgba(96, 165, 250, 0.3);
+      margin-top: 2rem;
+    }
+
+    .question-box p {
+      margin-bottom: 1rem;
+    }
+
     .question-input {
-        background-color: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        color: white;
-        border-radius: 8px;
-        padding: 12px 16px;
-        width: 100%;
-        font-size: 16px;
-        transition: all 0.3s ease;
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      border-radius: 8px;
+      padding: 12px 16px;
+      width: 100%;
+      font-size: 16px;
+      margin-bottom: 16px;
     }
-    
+
     .question-input:focus {
-        outline: none;
-        border-color: #4299e1;
-        box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+      outline: none;
+      border-color: #4299e1;
+      box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
     }
-    
+
     .btn {
-        background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
-        color: white;
-        font-weight: bold;
-        padding: 12px 24px;
-        border-radius: 8px;
-        border: none;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-family: 'Cinzel', serif;
-        letter-spacing: 1px;
+      background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+      color: white;
+      font-weight: bold;
+      padding: 12px 24px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Cinzel', serif;
+      letter-spacing: 1px;
     }
-    
+
     .btn:hover {
-        background: linear-gradient(135deg, #3182ce 0%, #2b6cb0 100%);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(66, 153, 225, 0.5);
+      background: linear-gradient(135deg, #3182ce 0%, #2b6cb0 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(66, 153, 225, 0.5);
     }
-    
-    .btn:disabled {
-        background: #a0aec0;
-        cursor: not-allowed;
-        transform: none;
-        box-shadow: none;
-    }
-</style>
-<div class="container mx-auto px-4 py-8">
-    <header class="text-center mb-8">
-        <h1 class="text-4xl md:text-5xl font-bold text-blue-300 mb-2">Tarô Intuitivo</h1>
-        <p class="text-xl text-blue-200 mb-6">Consulta Sim ou Não</p>
-        <div class="max-w-2xl mx-auto bg-blue-900/30 p-6 rounded-lg border border-blue-800/50">
-            <p class="mb-4">Concentre-se em sua pergunta e escolha uma carta com sua intuição. A carta revelará a resposta que você busca.</p>
-            <div class="mb-6">
-                <input type="text" id="question-input" class="question-input" placeholder="Digite sua pergunta aqui (opcional)">
-            </div>
-            <button id="shuffle-btn" class="btn">Embaralhar Cartas</button>
-        </div>
-    </header>
-    
-    <div id="game-area" class="hidden">
-        <div class="text-center mb-8">
-            <h2 class="text-2xl font-semibold mb-2">Escolha uma carta</h2>
-            <p id="question-display" class="text-lg italic text-blue-300"></p>
-        </div>
-        
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 justify-items-center max-w-5xl mx-auto">
-            <!-- Cards will be generated here -->
-        </div>
-        
-        <div class="text-center mt-10">
-            <button id="reset-btn" class="btn">Nova Consulta</button>
-        </div>
-    </div>
-</div>
+  </style>
+</head>
+<body>
+  <div id="stars-container"></div>
 
-<div id="result-modal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn">&times;</span>
-        <div class="text-center mb-6">
-            <h2 class="text-2xl font-bold mb-2" id="modal-card-name">Nome da Carta</h2>
-            <div class="flex justify-center mb-4">
-                <span id="modal-result-badge" class="result-badge">Resultado</span>
-            </div>
-        </div>
-        <div class="flex flex-col md:flex-row gap-6 items-center mb-6">
-            <div class="w-full md:w-1/3 flex justify-center">
-                <div class="w-40 h-64 rounded-lg border-2 border-blue-400 overflow-hidden">
-                    <div id="modal-card-image" class="w-full h-full flex items-center justify-center bg-blue-900 text-4xl"></div>
-                </div>
-            </div>
-            <div class="w-full md:w-2/3">
-                <h3 class="text-xl font-semibold mb-2">Interpretação</h3>
-                <p id="modal-interpretation" class="mb-4"></p>
-                <h3 class="text-xl font-semibold mb-2">Conselho</h3>
-                <p id="modal-advice"></p>
-            </div>
-        </div>
-    </div>
-</div>
+  <div class="container">
+    <h1>Tarô Intuitivo</h1>
+    <h2>Consulta Sim ou Não</h2>
 
-<script>
-    // Tarot card data
-    const tarotCards = [
-        {
-            name: "O Mago",
-            symbol: "✨",
-            result: "yes",
-            interpretation: "O Mago representa poder pessoal, manifestação e habilidade. Esta carta indica que você tem todos os recursos necessários para realizar o que deseja.",
-            advice: "Confie em suas habilidades e use seus talentos para criar a realidade que você deseja. O momento é favorável para agir com confiança."
-        },
-        {
-            name: "A Torre",
-            symbol: "⚡",
-            result: "no",
-            interpretation: "A Torre simboliza ruptura súbita, caos e revelações dolorosas. Esta carta sugere que o caminho atual pode levar a consequências inesperadas e potencialmente negativas.",
-            advice: "Reconsidere seus planos e esteja aberto a mudanças de direção. Às vezes, um 'não' do universo é uma proteção contra algo que não seria benéfico para você."
-        },
-        {
-            name: "A Estrela",
-            symbol: "⭐",
-            result: "yes",
-            interpretation: "A Estrela traz esperança, inspiração e orientação divina. Esta carta indica que seus desejos estão alinhados com seu caminho espiritual e há apoio do universo.",
-            advice: "Mantenha a fé e a esperança. Continue seguindo sua intuição, pois você está no caminho certo. A resposta positiva vem acompanhada de bênçãos."
-        },
-        {
-            name: "O Enforcado",
-            symbol: "🔄",
-            result: "maybe",
-            interpretation: "O Enforcado representa pausa, rendição e novas perspectivas. Esta carta sugere que talvez não seja o momento de agir, mas sim de observar e ganhar novos insights.",
-            advice: "Considere mudar sua perspectiva sobre a situação. A resposta que você busca pode depender de sua disposição para ver as coisas de um ângulo diferente ou de aceitar um período de espera."
-        },
-        {
-            name: "O Sol",
-            symbol: "☀️",
-            result: "yes",
-            interpretation: "O Sol representa sucesso, vitalidade e clareza. Esta carta traz uma resposta fortemente positiva, indicando que o caminho está iluminado e favorável.",
-            advice: "Avance com confiança e otimismo. O sucesso está ao seu alcance, e a situação tem grande potencial para trazer alegria e realização."
-        },
-        {
-            name: "A Lua",
-            symbol: "🌙",
-            result: "maybe",
-            interpretation: "A Lua simboliza intuição, ilusão e o subconsciente. Esta carta sugere que há aspectos ocultos ou emoções não processadas que podem influenciar a situação.",
-            advice: "Confie em sua intuição profunda, não apenas no que parece óbvio. Pode haver informações importantes que ainda não vieram à luz. Espere até ter mais clareza antes de tomar uma decisão definitiva."
-        },
-        {
-            name: "O Imperador",
-            symbol: "👑",
-            result: "yes",
-            interpretation: "O Imperador representa autoridade, estrutura e controle. Esta carta indica que você tem o poder e a capacidade de estabelecer ordem e alcançar seus objetivos.",
-            advice: "Assuma o controle da situação com confiança. Estabeleça limites claros e use sua autoridade de forma construtiva. O momento favorece a liderança e a tomada de decisões estruturadas."
-        },
-        {
-            name: "Os Amantes",
-            symbol: "❤️",
-            result: "yes",
-            interpretation: "Os Amantes simbolizam escolha, união e alinhamento de valores. Esta carta sugere harmonia e conexão, indicando que o caminho está alinhado com seus valores mais profundos.",
-            advice: "Siga seu coração, mas certifique-se de que sua escolha esteja em harmonia com seus valores essenciais. A resposta é positiva, especialmente para questões relacionadas a relacionamentos e parcerias."
-        },
-        {
-            name: "A Morte",
-            symbol: "🦋",
-            result: "no",
-            interpretation: "A Morte representa transformação, fim de ciclos e renovação. Esta carta sugere que o caminho atual precisa ser encerrado para dar lugar a algo novo.",
-            advice: "Aceite o fim de um ciclo. Embora a resposta seja 'não' para a situação atual, isso abre espaço para novas possibilidades que podem ser mais alinhadas com seu crescimento pessoal."
-        },
-        {
-            name: "O Louco",
-            symbol: "🌈",
-            result: "maybe",
-            interpretation: "O Louco representa novos começos, fé e imprevisibilidade. Esta carta sugere que o resultado depende de sua disposição para dar um salto de fé e abraçar o desconhecido.",
-            advice: "Esteja aberto a possibilidades inesperadas. A resposta não é definitiva porque depende de sua disposição para arriscar e confiar no processo, mesmo sem garantias."
-        },
-        {
-            name: "A Roda da Fortuna",
-            symbol: "🎡",
-            result: "maybe",
-            interpretation: "A Roda da Fortuna simboliza mudanças cíclicas, destino e oportunidades. Esta carta sugere que as circunstâncias estão em fluxo e o resultado pode mudar com o tempo.",
-            advice: "Reconheça que há forças maiores em jogo. O momento atual é de transição, e a resposta pode mudar conforme a roda gira. Esteja preparado para adaptar-se às mudanças que virão."
-        },
-        {
-            name: "O Mundo",
-            symbol: "🌍",
-            result: "yes",
-            interpretation: "O Mundo representa realização, integração e completude. Esta carta indica sucesso e a conclusão bem-sucedida de um ciclo importante.",
-            advice: "Avance com confiança, sabendo que você está pronto para completar este ciclo com sucesso. A resposta é positiva e sugere que você alcançará seus objetivos de forma plena e satisfatória."
-        }
-    ];
-    
-    // DOM elements
-    const shuffleBtn = document.getElementById('shuffle-btn');
-    const resetBtn = document.getElementById('reset-btn');
-    const gameArea = document.getElementById('game-area');
-    const resultModal = document.getElementById('result-modal');
-    const closeBtn = document.querySelector('.close-btn');
-    const questionInput = document.getElementById('question-input');
-    const questionDisplay = document.getElementById('question-display');
-    
-    // Modal elements
-    const modalCardName = document.getElementById('modal-card-name');
-    const modalResultBadge = document.getElementById('modal-result-badge');
-    const modalCardImage = document.getElementById('modal-card-image');
-    const modalInterpretation = document.getElementById('modal-interpretation');
-    const modalAdvice = document.getElementById('modal-advice');
-    
-    // Create stars background
+    <div class="question-box">
+      <p>Concentre-se em sua pergunta e escolha uma carta com sua intuição. A carta revelará a resposta que você busca.</p>
+      <input type="text" class="question-input" placeholder="Digite sua pergunta aqui (opcional)" />
+      <button class="btn">Embaralhar Cartas</button>
+    </div>
+  </div>
+
+  <script>
+    // Criar estrelas no fundo
     function createStars() {
-        const starsContainer = document.getElementById('stars-container');
-        for (let i = 0; i < 100; i++) {
-            const star = document.createElement('div');
-            star.classList.add('star');
-            
-            // Random size between 1-3px
-            const size = Math.random() * 2 + 1;
-            star.style.width = `${size}px`;
-            star.style.height = `${size}px`;
-            
-            // Random position
-            star.style.top = `${Math.random() * 100}%`;
-            star.style.left = `${Math.random() * 100}%`;
-            
-            // Random delay for twinkle animation
-            star.style.animationDelay = `${Math.random() * 3}s`;
-            
-            starsContainer.appendChild(star);
-        }
+      const starsContainer = document.getElementById('stars-container');
+      for (let i = 0; i < 100; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+
+        const size = Math.random() * 2 + 1;
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+
+        star.style.top = `${Math.random() * 100}%`;
+        star.style.left = `${Math.random() * 100}%`;
+        star.style.animationDelay = `${Math.random() * 3}s`;
+
+        starsContainer.appendChild(star);
+      }
     }
-    
-    // Initialize the game
-    function initGame() {
-        createStars();
-        
-        shuffleBtn.addEventListener('click', startGame);
-        resetBtn.addEventListener('click', resetGame);
-        closeBtn.addEventListener('click', closeModal);
-    }
-    
-    // Start the game
-    function startGame() {
-        // Show game area
-        gameArea.classList.remove('hidden');
-        gameArea.classList.add('fade-in');
-        
-        // Hide shuffle button
-        shuffleBtn.parentElement.parentElement.classList.add('hidden');
-        
-        // Display question if entered
-        const question = questionInput.value.trim();
-        if (question) {
-            questionDisplay.textContent = `"${question}"`;
-        } else {
-            questionDisplay.textContent = "Concentre-se em sua pergunta...";
-        }
-        
-        // Create and shuffle cards
-        createCards();
-    }
-    
-    // Create cards
-    function createCards() {
-        const cardsContainer = document.querySelector('.grid');
-        cardsContainer.innerHTML = '';
-        
-        // Shuffle and select 6 random cards
-        const shuffledCards = [...tarotCards].sort(() => Math.random() - 0.5).slice(0, 6);
-        
-        shuffledCards.forEach((card, index) => {
-            const cardElement = document.createElement('div');
-            cardElement.classList.add('card', 'shuffle-animation');
-            cardElement.style.animationDelay = `${index * 0.1}s`;
-            
-            cardElement.innerHTML = `
-                <div class="card-inner">
-                    <div class="card-front">
-                        <svg class="card-pattern" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                            <pattern id="pattern-circles" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
-                                <circle cx="5" cy="5" r="2" fill="none" stroke="#4299e1" stroke-width="0.5" />
-                            </pattern>
-                            <rect x="0" y="0" width="100" height="100" fill="url(#pattern-circles)" />
-                            <circle cx="50" cy="50" r="30" fill="none" stroke="#4299e1" stroke-width="1" />
-                            <polygon points="50,20 55,35 70,35 60,45 65,60 50,50 35,60 40,45 30,35 45,35" fill="none" stroke="#4299e1" stroke-width="1" />
-                        </svg>
-                    </div>
-                    <div class="card-back">
-                        <span class="text-5xl mb-3">${card.symbol}</span>
-                        <h3 class="text-lg font-bold mb-1">${card.name}</h3>
-                        <span class="result-badge ${card.result === 'yes' ? 'yes' : card.result === 'no' ? 'no' : 'maybe'}">
-                            ${card.result === 'yes' ? '✅ SIM' : card.result === 'no' ? '❌ NÃO' : '🌗 INCERTEZA'}
-                        </span>
-                    </div>
-                </div>
-            `;
-            
-            cardElement.addEventListener('click', () => {
-                // Only allow clicking if card is not already flipped
-                if (!cardElement.classList.contains('flipped')) {
-                    flipCard(cardElement, card);
-                }
-            });
-            
-            cardsContainer.appendChild(cardElement);
-        });
-    }
-    
-    // Flip card and show result
-    function flipCard(cardElement, card) {
-        // Flip the selected card
-        cardElement.classList.add('flipped');
-        
-        // Disable other cards
-        document.querySelectorAll('.card').forEach(c => {
-            c.style.cursor = 'default';
-            c.removeEventListener('click', flipCard);
-        });
-        
-        // Show result modal after flip animation
-        setTimeout(() => {
-            showResultModal(card);
-        }, 1000);
-    }
-    
-    // Show result modal
-    function showResultModal(card) {
-        modalCardName.textContent = card.name;
-        modalCardImage.innerHTML = `<span class="text-7xl">${card.symbol}</span>`;
-        modalInterpretation.textContent = card.interpretation;
-        modalAdvice.textContent = card.advice;
-        
-        // Set result badge
-        modalResultBadge.className = 'result-badge';
-        if (card.result === 'yes') {
-            modalResultBadge.classList.add('yes');
-            modalResultBadge.textContent = '✅ SIM';
-        } else if (card.result === 'no') {
-            modalResultBadge.classList.add('no');
-            modalResultBadge.textContent = '❌ NÃO';
-        } else {
-            modalResultBadge.classList.add('maybe');
-            modalResultBadge.textContent = '🌗 INCERTEZA';
-        }
-        
-        resultModal.classList.add('active');
-    }
-    
-    // Close modal
-    function closeModal() {
-        resultModal.classList.remove('active');
-    }
-    
-    // Reset game
-    function resetGame() {
-        // Show shuffle button and input area
-        shuffleBtn.parentElement.parentElement.classList.remove('hidden');
-        
-        // Hide game area
-        gameArea.classList.add('hidden');
-        
-        // Clear question input
-        questionInput.value = '';
-    }
-    
-    // Initialize the game when the page loads
-    document.addEventListener('DOMContentLoaded', initGame);
-</script>
+
+    document.addEventListener('DOMContentLoaded', createStars);
+  </script>
+</body>
+</html>
